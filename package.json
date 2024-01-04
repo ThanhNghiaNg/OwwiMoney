@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "node server.mjs",
-    "build": "prettier --check . && next build",
+    "build": "next build",
     "start": "set NODE_ENV=production && node server.mjs",
     "lint": "prettier --check .&& tsc --noEmit && next lint",
     "format": "prettier --write .",
