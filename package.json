@@ -8,7 +8,6 @@
     "start": "set NODE_ENV=production && node server.mjs",
     "lint": "prettier --check .&& tsc --noEmit && next lint",
     "format": "prettier --write .",
-    "prepare": "husky install",
     "seed": "node -r dotenv/config ./utils/createTable.js",
     "preview-email": "email dev",
     "postinstall": "prisma generate"
