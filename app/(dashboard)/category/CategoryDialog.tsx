@@ -40,7 +40,7 @@ const CategoryDialog = ({
   const [category, setCategory] = useState<CategoryCreateType>();
   const [changeImage, setChangeImage] = useState(false);
   const [isNewImage, setIsNewImage] = useState(false);
-  const [categoryTypeOption, setCategoryTypeOption] = useState<DataType[]>([{ label: '', value: '' }]);
+  const [typeOptions, setTypeOptions] = useState<DataType[]>([{ label: '', value: '' }]);
   const {
     control,
     handleSubmit,
@@ -92,14 +92,15 @@ const CategoryDialog = ({
   };
 
   useEffect(() => {
-    (async () => {
+    const fetchAllTypes = async () => {
       const allTypes = await getAllTypes();
-      const categoryTypeOption: DataType[] | undefined = allTypes.data?.types?.map((type) => {
+      const typeOptions: DataType[] | undefined = allTypes.data?.types?.map((type) => {
         return { value: type.id, label: type.name } as DataType;
       });
 
-      setCategoryTypeOption(categoryTypeOption as DataType[]);
-    })();
+      setTypeOptions(typeOptions as DataType[]);
+    };
+    fetchAllTypes();
   }, []);
 
   useEffect(() => {
@@ -199,7 +200,7 @@ const CategoryDialog = ({
               name="type"
               valueProp={value}
               onChangeHandler={onChange}
-              optionsProp={categoryTypeOption}
+              optionsProp={typeOptions}
               widthSelection={'100%'}
               placeholder={'Select category type...'}
               customInput={'px-6 py-4 border-[1px] border-solid border-[#D1D1D1] hover h-14 text-base'}
