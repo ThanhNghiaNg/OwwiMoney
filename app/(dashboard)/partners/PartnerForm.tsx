@@ -24,6 +24,7 @@ export default function PartnerForm({
   submitHandler: (value: any) => void;
   isLoading?: boolean;
 }) {
+  const [isLoadingType, setIsLoadingType] = useState<boolean>(false);
   const [typeOptions, setTypeOptions] = useState<DataType[]>([]);
   const [partnerImage, setPartnerImage] = useState(partnerData?.image || '');
   const resolver = classValidatorResolver(PartnerModel);
@@ -70,11 +71,12 @@ export default function PartnerForm({
 
   useEffect(() => {
     const fetchAllTypes = async () => {
+      setIsLoadingType(true);
       const allTypes = await getAllTypes();
       const typeOptions: DataType[] | undefined = allTypes.data?.types?.map((type) => {
         return { value: type.id, label: type.name } as DataType;
       });
-
+      setIsLoadingType(false);
       setTypeOptions(typeOptions as DataType[]);
     };
     fetchAllTypes();
@@ -83,7 +85,7 @@ export default function PartnerForm({
   useEffect(() => {
     setPartnerImage(partnerData?.image || '');
   }, [partnerData?.image]);
-
+  console.log({ isLoadingType });
   return (
     <CommonCard className="p-4 md:p-16 md:pr-20 lg:pr-40 2xl:pr-96 w-full">
       <div className="grid grid-cols-3 gap-4 items-center">
@@ -200,6 +202,7 @@ export default function PartnerForm({
               placeholder={'Select Type...'}
               customInput={'px-6 py-4 border-[1px] border-solid border-[#D1D1D1] hover h-14 text-base'}
               errors={errors}
+              isDisabled={isLoadingType}
             />
           )}
         />
@@ -225,7 +228,7 @@ export default function PartnerForm({
         <CommonButton
           className={`w-fit ${isLoading ? 'bg-white-300' : ''} `}
           onClick={handleSubmitForm}
-          disabled={isLoading}
+          disabled={isLoading || isLoadingType}
         >
           {type === 'create' ? 'Create' : 'Update'}
         </CommonButton>

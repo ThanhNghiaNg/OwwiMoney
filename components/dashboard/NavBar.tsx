@@ -1,6 +1,7 @@
 import CommonAvatar from '@/components/CommonAvatar';
 import Breadcrumb from '@/components/breadscrumb';
 import { CommonCard } from '@/components/card';
+import * as PopoverPrimitive from '@radix-ui/react-popover';
 import { Box, Flex, IconButton, Strong, Text } from '@radix-ui/themes';
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -57,29 +58,35 @@ const NavBar = ({ noti = true }: { noti?: boolean }) => {
             </Text>
             {/* <Text size={'1'}>{session?.user?.email}</Text> */}
           </Flex>
-          <IconButton
-            onClick={() => {
+          <PopoverPrimitive.Root
+            open={togglePanel}
+            onOpenChange={() => {
               setTogglePanel((prev) => !prev);
             }}
-            className="cursor-pointer"
           >
-            {togglePanel ? <IoIosArrowUp size={22} /> : <IoIosArrowDown size={22} />}
-          </IconButton>
-          {togglePanel && (
-            <CommonCard className="absolute bottom-[-0.2rem] right-0 transform translate-y-full w-48 rounded-lg shadow-md z-10">
-              <Link href={'/settings'}>
-                <div className="hover:text-white hover:bg-[#1eabf8] px-4 py-4 rounded-lg rounded-bl-none rounded-br-none w-[100%]">
-                  Setting
-                </div>
-              </Link>
-              <button
-                className="text-red-500 hover:text-white hover:bg-[#1eabf8] px-4 py-4 rounded-lg rounded-tl-none rounded-tr-none w-full text-left"
-                onClick={() => signOut({ callbackUrl: '/login' })}
-              >
-                Logout
-              </button>
-            </CommonCard>
-          )}
+            <PopoverPrimitive.Trigger asChild>
+              <IconButton className="cursor-pointer">
+                {togglePanel ? <IoIosArrowUp size={22} /> : <IoIosArrowDown size={22} />}
+              </IconButton>
+            </PopoverPrimitive.Trigger>
+            <PopoverPrimitive.Portal>
+              <PopoverPrimitive.Content>
+                <CommonCard className="absolute bottom-[-1.5rem] right-[-1rem] transform translate-y-full w-48 rounded-lg shadow-md z-10">
+                  <Link href={'/settings'}>
+                    <div className="hover:text-white hover:bg-[#1eabf8] px-4 py-4 rounded-lg rounded-bl-none rounded-br-none w-[100%]">
+                      Setting
+                    </div>
+                  </Link>
+                  <button
+                    className="text-red-500 hover:text-white hover:bg-[#1eabf8] px-4 py-4 rounded-lg rounded-tl-none rounded-tr-none w-full text-left"
+                    onClick={() => signOut({ callbackUrl: '/login' })}
+                  >
+                    Logout
+                  </button>
+                </CommonCard>
+              </PopoverPrimitive.Content>
+            </PopoverPrimitive.Portal>
+          </PopoverPrimitive.Root>
         </Box>
       </Box>
     </Box>

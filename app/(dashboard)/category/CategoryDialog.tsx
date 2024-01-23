@@ -37,6 +37,7 @@ const CategoryDialog = ({
   categoryId,
   openDialog,
 }: CategoryDialogProps & Partial<CategoryModelUpload>) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [category, setCategory] = useState<CategoryCreateType>();
   const [changeImage, setChangeImage] = useState(false);
   const [isNewImage, setIsNewImage] = useState(false);
@@ -91,17 +92,14 @@ const CategoryDialog = ({
     }
   };
 
-  // useEffect(() => {
-
-  // }, []);
-
   useEffect(() => {
     const fetchAllTypes = async () => {
+      setIsLoading(true);
       const allTypes = await getAllTypes();
       const typeOptions: DataType[] | undefined = allTypes.data?.types?.map((type) => {
         return { value: type.id, label: type.name } as DataType;
       });
-
+      setIsLoading(false);
       setCategoryTypeOption(typeOptions as DataType[]);
     };
     openDialog && fetchAllTypes();
@@ -194,6 +192,7 @@ const CategoryDialog = ({
           )}
         />
         <p className={'mt-6 mb-2 text-base font-semibold leading-6 '}>Type</p>
+
         <Controller
           name="type"
           control={control}
@@ -207,9 +206,11 @@ const CategoryDialog = ({
               placeholder={'Select category type...'}
               customInput={'px-6 py-4 border-[1px] border-solid border-[#D1D1D1] hover h-14 text-base'}
               errors={errors}
+              isDisabled={isLoading}
             />
           )}
         />
+
         <p className={'mt-6 mb-2 text-base font-semibold leading-6 '}>Description</p>
         <Controller
           name="description"
