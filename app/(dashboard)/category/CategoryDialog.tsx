@@ -91,6 +91,10 @@ const CategoryDialog = ({
     }
   };
 
+  // useEffect(() => {
+
+  // }, []);
+
   useEffect(() => {
     const fetchAllTypes = async () => {
       const allTypes = await getAllTypes();
@@ -101,9 +105,7 @@ const CategoryDialog = ({
       setTypeOptions(typeOptions as DataType[]);
     };
     fetchAllTypes();
-  }, []);
 
-  useEffect(() => {
     const getCategoryDetail = async () => {
       const result = await getCategoryById(categoryId as string);
       const categoryDetail = result.data?.category;
