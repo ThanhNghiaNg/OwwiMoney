@@ -17,8 +17,9 @@ const quickSand = Quicksand({
 });
 
 export const metadata: Metadata = {
-  title: 'OwwiMoney',
+  title: 'Owwi Money',
   description: '$$$',
+  icons: { icon: '/icon.png', apple: '/icon.png' },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
