@@ -94,6 +94,7 @@ const CategoryDialog = ({
   useEffect(() => {
     const fetchAllTypes = async () => {
       const allTypes = await getAllTypes();
+      console.log({ allTypes });
       const typeOptions: DataType[] | undefined = allTypes.data?.types?.map((type) => {
         return { value: type.id, label: type.name } as DataType;
       });
