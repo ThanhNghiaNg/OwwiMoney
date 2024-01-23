@@ -70,8 +70,8 @@ const NavBar = ({ noti = true }: { noti?: boolean }) => {
               </IconButton>
             </PopoverPrimitive.Trigger>
             <PopoverPrimitive.Portal>
-              <PopoverPrimitive.Content>
-                <CommonCard className="absolute bottom-[-1.5rem] right-[-1rem] transform translate-y-full w-48 rounded-lg shadow-md z-10">
+              <PopoverPrimitive.Content className="z-[51]">
+                <CommonCard className="z-50 absolute bottom-[-1.5rem] right-[-1rem] transform translate-y-full w-48 rounded-lg shadow-md z-10">
                   <Link href={'/settings'}>
                     <div className="hover:text-white hover:bg-[#1eabf8] px-4 py-4 rounded-lg rounded-bl-none rounded-br-none w-[100%]">
                       Setting

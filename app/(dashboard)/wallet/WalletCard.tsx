@@ -75,7 +75,7 @@ const WalletCard = ({ wallet, handleDeleteWallet }: WalletCardProps) => {
           <CardDescription className="text-gray-03">Account Number</CardDescription>
         </div>
         <div>
-          <div className="text-xl font-semibold">${wallet.totalBalance}</div>
+          <div className="text-xl font-semibold">{Number(wallet.totalBalance).toLocaleString()}</div>
           <CardDescription className="text-gray-03">Total amount</CardDescription>
         </div>
       </CardContent>

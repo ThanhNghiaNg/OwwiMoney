@@ -9,7 +9,7 @@ export default function DashboardBorrowers() {
       <div className="flex justify-between items-center">
         <h1 className="text-xl font-semibold">Borrowers</h1>
         <Link
-          href={'/transactions'}
+          href={'/partners'}
           className="flex items-center gap-2"
         >
           <p className="text-sm hover:underline">View all</p> <FaChevronRight size={12} />

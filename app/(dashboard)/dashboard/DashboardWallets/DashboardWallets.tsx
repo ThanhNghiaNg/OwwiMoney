@@ -13,7 +13,7 @@ export default function DashboardWallets() {
           className="flex items-center gap-2"
         >
           <Link
-            href={'/transactions'}
+            href={'/wallet'}
             className="flex items-center gap-2"
           >
             <p className="text-sm hover:underline">View all</p> <FaChevronRight size={12} />

@@ -63,7 +63,10 @@ const TransactionTable = () => {
       label: 'Amount',
       field: 'amount',
       sortable: true,
-      customRender: (row: string) => <div className="py-2 font-bold text-green-700">{row}</div>,
+      headerTextAlign: 'right',
+      customRender: (row: string) => (
+        <div className="py-2 font-bold text-green-700 text-end">{Number(row).toLocaleString()}</div>
+      ),
     },
   ];
   return (

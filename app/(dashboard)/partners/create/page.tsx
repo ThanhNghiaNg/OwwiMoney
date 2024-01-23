@@ -22,8 +22,8 @@ export default function PartnerCreateClient() {
 
     if (respone.status?.code === 201) {
       toast.success('Partner created successfully');
-      router.prefetch('/partners');
       router.push('/partners');
+      router.refresh();
     }
   };
   return (

@@ -18,7 +18,7 @@ export default function DashboardTransactions() {
   return (
     <div className="bg-white-500 rounded-2xl px-4 py-2 flex flex-col gap-2 shadow-md">
       <h1 className="text-xl font-semibold py-2">New transaction</h1>
-      <div className="flex justify-between">
+      <div className={tailwindMerge('flex justify-start gap-8')}>
         {newTransaction &&
           newTransaction.map((item) => {
             return (

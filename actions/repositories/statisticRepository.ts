@@ -206,6 +206,7 @@ class StatisticRepository {
         userId,
         deleted: false,
       },
+      distinct: ['partnerId'],
       include: {
         partner: { select: { name: true, image: true } }, // Lựa chọn các trường bạn muốn bao gồm cho partner
       },

@@ -22,10 +22,12 @@ import { IsImage, MaxSize } from '@/utils/validate/decorators';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import { Box } from '@radix-ui/themes';
 import { IsNotEmpty, Min } from 'class-validator';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState, type ChangeEvent } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { BsSearch } from 'react-icons/bs';
+import { CiCirclePlus } from 'react-icons/ci';
 import { FaPlus } from 'react-icons/fa';
 import { GoPlus } from 'react-icons/go';
 import { toast } from 'react-toastify';
@@ -290,7 +292,13 @@ const TransactionsDialog: React.FC<TransactionsDialogProps> = ({ formType, openD
             />
           </div>
           <div className="flex flex-col w-1/2 min-w-max">
-            <p className={'mt-6 mb-2 text-base font-semibold leading-6'}>Category</p>
+            <p className={'mt-6 mb-2 text-base font-semibold leading-6 flex items-center gap-1'}>
+              <span>Category</span>
+              <Link href={'/category'}>
+                <CiCirclePlus size={18} />
+              </Link>
+            </p>
+
             <Controller
               name="category"
               control={control}
@@ -310,7 +318,12 @@ const TransactionsDialog: React.FC<TransactionsDialogProps> = ({ formType, openD
             />
           </div>
         </div>
-        <p className={'mb-2 text-base font-semibold leading-6 '}>Partner</p>
+        <p className={'mb-2 text-base font-semibold leading-6 flex items-center gap-1'}>
+          <span>Partner</span>
+          <Link href={'/partners'}>
+            <CiCirclePlus size={18} />
+          </Link>
+        </p>
         {partnerOptions.length === 0 ? (
           <div className="h-[84px] flex justify-center items-center text-base">
             {watch('type') ? 'No Partner' : 'Please select type!!'}
@@ -389,7 +402,12 @@ const TransactionsDialog: React.FC<TransactionsDialogProps> = ({ formType, openD
 
         <div className="flex justify-between gap-2 min-w-[500px]">
           <div className="flex flex-col w-1/2 min-w-max">
-            <p className={'mt-6 mb-2 text-base font-semibold leading-6'}>Wallet</p>
+            <p className={'mt-6 mb-2 text-base font-semibold leading-6 flex items-center gap-1'}>
+              <span>Wallet</span>
+              <Link href={'/wallet'}>
+                <CiCirclePlus size={18} />
+              </Link>
+            </p>
             <Controller
               name="wallet"
               control={control}
