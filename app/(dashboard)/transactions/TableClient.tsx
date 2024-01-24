@@ -89,8 +89,8 @@ export const TableTransactionAll: React.FC<TableTransactionAllProps> = ({ dataTa
       label: 'Amount',
       field: 'amount',
       sortable: true,
-      headerTextAlign: 'left',
-      textAlign: 'left',
+      headerTextAlign: 'right',
+      textAlign: 'right',
       customRender: (value) => {
         return <div>{Number(value).toLocaleString()}</div>;
       },

@@ -64,6 +64,8 @@ const TableHeader = <TData,>({ columns, sortHandler, selectAllRowHandler }: Prop
                   className={clsx([
                     'flex gap-0 items-start font-semibold align-middle text-color-mute py-2 sm:px-1',
                     column.headerTextAlign === 'center' || column.type === 'action' ? 'justify-center' : '',
+                    column.headerTextAlign === 'left' && 'justify-start',
+                    column.headerTextAlign === 'right' && 'justify-end',
                     'relative',
                   ])}
                 >
