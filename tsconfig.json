@@ -3,7 +3,7 @@
     /* Base Options: */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*", ""]
+      "@/*": ["./*", ""],
     },
     "strictPropertyInitialization": false,
     "esModuleInterop": true,
@@ -29,10 +29,10 @@
     "jsx": "preserve",
     "plugins": [
       {
-        "name": "next"
-      }
+        "name": "next",
+      },
     ],
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
   },
   "include": [
     "next-env.d.ts",
@@ -44,7 +44,7 @@
     "actions/chat/lmao.mjs",
     "server.mjs",
     "helper/lib/prismadb.ts",
-    "helper/lib/prismadbserver.js"
+    "helper/lib/prismadbserver.js",
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }
