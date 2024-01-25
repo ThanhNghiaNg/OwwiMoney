@@ -35,3 +35,13 @@ export type ResponseDataType<TResponse> = {
       }
     | undefined;
 };
+
+export type WalletStatisticType = {
+  id: string;
+  name: string;
+  accountNumber: string;
+  color: string | null;
+  totalBalance: number;
+  income: any;
+  outcome: any;
+};

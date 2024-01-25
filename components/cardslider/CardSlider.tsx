@@ -8,10 +8,19 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 // import 'swiper/css/pagination';
 import WalletCard from '@/components/cardslider/WalletCard';
+import type { WalletStatisticType } from '@/types/component';
 import 'swiper/css/scrollbar';
 import { Navigation, Pagination } from 'swiper/modules';
 
-const CardSlider = () => {
+const CardSlider = ({
+  items,
+  onNextWallet,
+  onPrevWallet,
+}: {
+  items: WalletStatisticType[];
+  onNextWallet: () => void;
+  onPrevWallet: () => void;
+}) => {
   const navigationPrevRef = useRef(null);
   const navigationNextRef = useRef(null);
 
@@ -39,36 +48,32 @@ const CardSlider = () => {
       }}
       spaceBetween={0}
       slidesPerView={1}
-      onSwiper={(swiper) => console.log(swiper)}
+      onSwiper={(swiper) => {
+        //pass
+      }}
       onSlideChange={() => console.log('slide change')}
       className="!w-full !h-[230px]"
     >
-      <SwiperSlide
-        // className="!w-[300px]"
-        className="!mr-0 !w-full"
-      >
-        <WalletCard />
-      </SwiperSlide>
-      <SwiperSlide
-        // className="!w-[300px]"
-        className="!mr-0 !w-full"
-      >
-        <WalletCard />
-      </SwiperSlide>
-      <SwiperSlide
-        // className="!w-[300px]"
-        className="!mr-0 !w-full"
-      >
-        <WalletCard />
-      </SwiperSlide>
+      {items.map((item, idx) => {
+        return (
+          <SwiperSlide
+            key={`card-wallet-${idx}`}
+            className="!mr-0 !w-full"
+          >
+            <WalletCard item={item} />
+          </SwiperSlide>
+        );
+      })}
 
       <button
         className="swiper-button-prev after:!text-2xl"
         ref={navigationPrevRef}
+        onClick={onPrevWallet}
       />
       <button
         className="swiper-button-next after:!text-2xl"
         ref={navigationNextRef}
+        onClick={onNextWallet}
       />
     </Swiper>
   );

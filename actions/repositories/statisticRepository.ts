@@ -8,6 +8,8 @@ export type TransactionByDateRangeAndType = {
   typeName: string;
 };
 
+export type TransactionByDateRange = Pick<TransactionByDateRangeAndType, 'dateStart' | 'dateEnd'>;
+
 class StatisticRepository {
   async getTransactionByDateRangeAndType({
     dateStart,
@@ -359,6 +361,55 @@ class StatisticRepository {
         id: item._id.toString(),
       };
     });
+  }
+  async getWalletStatistics({ dateStart, dateEnd, userId }: TransactionByDateRange & { userId: string }) {
+    const db = await connectToDatabase();
+    const results = await db
+      .collection('Transaction')
+      .aggregate([
+        {
+          $match: {
+            userId: new ObjectId(userId),
+            createdDate: {
+              $gte: new Date(dateStart),
+              $lte: new Date(dateEnd),
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: 'Type',
+            localField: 'typeId',
+            foreignField: '_id',
+            as: 'type',
+          },
+        },
+        {
+          $lookup: {
+            from: 'Wallet',
+            localField: 'walletId',
+            foreignField: '_id',
+            as: 'wallet',
+          },
+        },
+        {
+          $group: {
+            _id: {
+              wallet: '$walletId',
+              typeName: '$type.name',
+            },
+            total: { $sum: '$amount' },
+          },
+        },
+        {
+          $sort: {
+            '_id.month': 1, // Sort by month in ascending order
+          },
+        },
+      ])
+      .toArray();
+
+    return results;
   }
 }
 

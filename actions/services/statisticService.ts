@@ -1,13 +1,16 @@
 import type StatisticRepository from '@/actions/repositories/statisticRepository';
+import type WalletRepository from '@/actions/repositories/walletRepository';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 import { getServerSession } from 'next-auth';
 import { HttpStatusCodes } from '../../helper/type';
 
 class StatisticService {
   private statisticReposiroty: StatisticRepository;
+  private walletReposiroty: WalletRepository;
 
-  constructor(statisticReposiroty: StatisticRepository) {
+  constructor(statisticReposiroty: StatisticRepository, walletReposiroty: WalletRepository) {
     this.statisticReposiroty = statisticReposiroty;
+    this.walletReposiroty = walletReposiroty;
   }
 
   async getAmountByMonth(type: string, month: string) {
@@ -252,6 +255,57 @@ class StatisticService {
       }
       const borrowers = await this.statisticReposiroty.getBorrowerByFilter(userId, query);
       return { message: 'Success', data: borrowers, status: HttpStatusCodes[200] };
+    } catch (error) {
+      return { message: error, status: HttpStatusCodes[500] };
+    }
+  }
+
+  async getWalletStatistics() {
+    try {
+      const session = await getServerSession(options);
+      const userId = (session?.user?.userId as string) || (session?.user?.id as string);
+
+      if (!userId) {
+        return { message: 'User is not valid', status: HttpStatusCodes[401] };
+      }
+      const today = new Date();
+      const dateStart = new Date(today.getFullYear(), today.getMonth(), 1); // The start of first date in previous year, start from 00:00:00 ISO
+      const dateEnd = new Date(today.getFullYear(), today.getMonth() + 1, 1); // The end of last date in current year, end to 00:00:00 ISO
+
+      const statistic = await this.statisticReposiroty.getWalletStatistics({
+        userId,
+        dateStart: dateStart.toISOString(),
+        dateEnd: dateEnd.toISOString(),
+      });
+
+      const wallets = await this.walletReposiroty.getAllWallet(userId);
+
+      const result = wallets.map((wallet) => {
+        const income =
+          statistic.find((item) => {
+            return item._id.wallet.toString() === wallet.id && item._id.typeName[0] === 'Income';
+          })?.total || 0;
+        const outcome =
+          statistic.find((item) => item._id.wallet.toString() === wallet.id && item._id.typeName[0] === 'Outcome')
+            ?.total || 0;
+        return {
+          id: wallet.id,
+          name: wallet.name,
+          accountNumber: wallet.accountNumber,
+          color: wallet.color,
+          totalBalance: wallet.totalBalance,
+          income,
+          outcome,
+        };
+      });
+
+      return {
+        message: 'Success',
+        data: {
+          statistic: result,
+        },
+        status: HttpStatusCodes[200],
+      };
     } catch (error) {
       return { message: error, status: HttpStatusCodes[500] };
     }

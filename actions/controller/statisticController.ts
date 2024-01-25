@@ -1,10 +1,12 @@
 'use server';
 import StatisticRepository from '@/actions/repositories/statisticRepository';
+import WalletRepository from '@/actions/repositories/walletRepository';
 import StatisticService from '@/actions/services/statisticService';
 import { HttpStatusCodes } from '@/helper/type';
 
 const statisticRepository = new StatisticRepository();
-const statisticService = new StatisticService(statisticRepository);
+const walletRepository = new WalletRepository();
+const statisticService = new StatisticService(statisticRepository, walletRepository);
 
 export const getStatisticWeekly = async () => {
   try {
@@ -25,6 +27,14 @@ export const getStatisticMonthly = async () => {
 export const getStatisticYearly = async () => {
   try {
     return await statisticService.getStatisticYearly();
+  } catch (error) {
+    return { message: 'Internal Server Error', status: HttpStatusCodes[500] };
+  }
+};
+
+export const getWalletStatistics = async () => {
+  try {
+    return await statisticService.getWalletStatistics();
   } catch (error) {
     return { message: 'Internal Server Error', status: HttpStatusCodes[500] };
   }
